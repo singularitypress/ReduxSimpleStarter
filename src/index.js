@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
 
 //youtube api key
-const API_KEY = 'CHECK_EMAIL';
+const API_KEY = 'AIzaSyB0Ig-vpxvTu2T209WZezq9Kg5_W-Ot78Q';
 
 /*
     Creating a new component. This component ought to generate some HTML.
@@ -24,9 +24,11 @@ const App = () => {
     */
     return (
         <div className="row">
+            <div className="large-3 columns hidebar">x</div>
             <div className="small-12 large-6 columns">
                 <SearchBar/>
             </div>
+            <div className="large-3 columns hidebar">x</div>
         </div>
     );
 }
