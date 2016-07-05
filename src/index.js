@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import SearchBar from './components/search_bar';
 
 //youtube api key
-const API_KEY = 'AIzaSyB0Ig-vpxvTu2T209WZezq9Kg5_W-Ot78Q';
+const API_KEY = 'CHECK_EMAIL';
 
 /*
     Creating a new component. This component ought to generate some HTML.
