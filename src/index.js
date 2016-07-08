@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
+import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 
 //youtube api key
 const API_KEY = 'AIzaSyB0Ig-vpxvTu2T209WZezq9Kg5_W-Ot78Q';
+
+/*
+    Below function uses the youtube api search module to send an object with the api key and search term
+    then running a function to log the data (an array called myData) returned from the search to the console.
+    YTSearch( {key:API_KEY, term:'canon 6d'}, function(myData){console.log(myData);} );
+*/
 
 /*
     Creating a new component. This component ought to generate some HTML.
@@ -14,7 +23,20 @@ const API_KEY = 'AIzaSyB0Ig-vpxvTu2T209WZezq9Kg5_W-Ot78Q';
 
 // const belongs to ES2016/ ES6. Constant/static.
 // '() => {}' is ES6 syntax, same as function(){}.
-const App = () => {
+class App extends Component {
+    constructor(props){
+        super(props);
+
+        this.state = { videos: [] };
+
+        YTSearch(
+            {key:API_KEY, term:'canon 6d'},
+            (videos) => {
+                this.setState({videos});
+                //same as 'this.setState({videos:videos});'
+            }
+        );
+    }
     /*
         You can't write html in javascript, so you can call this JSX. JSX looks
         like HTML but just a subscript of JS.
@@ -22,15 +44,33 @@ const App = () => {
         babel modules to dynamically compile it into regular javascript/ HTML for the
         browser to read.
     */
-    return (
-        <div className="row">
-            <div className="large-3 columns hidebar">x</div>
-            <div className="small-12 large-6 columns">
-                <SearchBar/>
+    render(){
+        return (
+            <div>
+                <div className="row">
+                    <div className="small-1 large-3 columns hidebar">x</div>
+                    <div className="small-10 large-6 columns">
+                        <SearchBar/>
+                    </div>
+                    <div className="small-1 large-3 columns hidebar">x</div>
+                </div>
+                <div className="row">
+                    <div className="small-1 large-3 columns hidebar">x</div>
+                    <div className="small-10 large-6 columns">
+                        <VideoDetail video={this.state.videos[0]} />
+                    </div>
+                    <div className="small-1 large-3 columns hidebar">x</div>
+                </div>
+                <div className="row">
+                    <div className="small-1 large-3 columns hidebar">x</div>
+                    <div className="small-10 large-6 columns">
+                        <VideoList videos={this.state.videos}/>
+                    </div>
+                    <div className="small-1 large-3 columns hidebar">x</div>
+                </div>
             </div>
-            <div className="large-3 columns hidebar">x</div>
-        </div>
-    );
+        );
+    }
 }
 
 /*
