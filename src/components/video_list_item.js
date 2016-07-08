@@ -5,17 +5,24 @@ import React from 'react';
     const VideoListItem = ({video}) => { ... }; are the same. Makes a variable containing props.video
 */
 
-const VideoListItem = ({video}) => {
-    const imageUrl = video.snippet.thumbnails.default.url;
+const VideoListItem = ({video, onVideoSelect}) => {
+    const imageUrl = video.snippet.thumbnails.high.url;
     const videoTitle = video.snippet.title;
+    var bgImage = {
+        backgroundPosition: 'center',
+        backgroundImage: 'url('+imageUrl+')',
+        backgroundSize: 'cover'
+    };
     return (
-        <li className="media">
+        <li onClick={() => onVideoSelect(video)} className="videoWrapper" style={bgImage} href="#mysearch">
+        <div className="videoWrapperSub" href="#mysearch">
             <a className="left" href="#">
-                <img className="media-object" src={imageUrl} alt="..."/>
+                <p className="media-heading">{videoTitle}</p>
                 <div className="media-body">
-                    <h4 className="media-heading">{videoTitle}</h4>
+
                 </div>
             </a>
+            </div>
         </li>
     );
 };

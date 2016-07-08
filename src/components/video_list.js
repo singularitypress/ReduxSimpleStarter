@@ -9,7 +9,12 @@ import VideoListItem from './video_list_item';
     will have each etag for each video in the array
 */
 const VideoList = (props) => {
-    const videoItems = props.videos.map( (video)=>{ return <VideoListItem key={video.etag} video={video} /> } );
+    const videoItems = props.videos.map(
+        (video)=>{
+            return <VideoListItem key={video.etag} video={video} onVideoSelect={props.onVideoSelect} />
+        }
+    );
+
     return (
         <ul className="media-list">
         {videoItems}

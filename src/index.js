@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
+import _ from 'lodash';
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
@@ -27,16 +28,25 @@ class App extends Component {
     constructor(props){
         super(props);
 
-        this.state = { videos: [] };
+        this.state = {
+            videos: [],
+            selectedVideo: null
+        };
 
+        // initialize default searchterm when the site loads so it's not empty
+        this.videoSearch('the division');
+    }
+
+    videoSearch(term) {
         YTSearch(
-            {key:API_KEY, term:'canon 6d'},
+            {key:API_KEY, term: term},
             (videos) => {
-                this.setState({videos});
+                this.setState({videos: videos, selectedVideo: videos[0]});
                 //same as 'this.setState({videos:videos});'
             }
         );
     }
+
     /*
         You can't write html in javascript, so you can call this JSX. JSX looks
         like HTML but just a subscript of JS.
@@ -45,33 +55,36 @@ class App extends Component {
         browser to read.
     */
     render(){
+        // this videoSearch method only exists within the context of render(){}, doesn't clash with videoSearch(term){}
+        const videoSearch = _.debounce( (term)=>{this.videoSearch(term)}, 300 );
+
         return (
             <div>
                 <div className="row">
-                    <div className="small-1 large-3 columns hidebar">x</div>
-                    <div className="small-10 large-6 columns">
-                        <SearchBar/>
+                    <div className="small-12 large-12 columns">
+                        <SearchBar onSearchTermChange={videoSearch} />
                     </div>
-                    <div className="small-1 large-3 columns hidebar">x</div>
                 </div>
                 <div className="row">
-                    <div className="small-1 large-3 columns hidebar">x</div>
-                    <div className="small-10 large-6 columns">
-                        <VideoDetail video={this.state.videos[0]} />
+                    <div className="small-12 large-8 columns">
+                        <VideoDetail video={this.state.selectedVideo} />
                     </div>
-                    <div className="small-1 large-3 columns hidebar">x</div>
-                </div>
-                <div className="row">
-                    <div className="small-1 large-3 columns hidebar">x</div>
-                    <div className="small-10 large-6 columns">
-                        <VideoList videos={this.state.videos}/>
+                    <div className="small-12 large-4 columns">
+                        <VideoList onVideoSelect={selectedVideo => this.setState({selectedVideo})} videos={this.state.videos}/>
                     </div>
-                    <div className="small-1 large-3 columns hidebar">x</div>
                 </div>
             </div>
         );
     }
 }
+
+/*
+    onVideoSelect={selectedVideo => this.setState({selectedVideo})} is the same as
+    doing:
+    (function (selectedVideo) {
+        return undefined.setState({ selectedVideo: selectedVideo });
+    });
+*/
 
 /*
     Simply passing in 'App' isn't good enough. 'App' represents my class called 'App'.

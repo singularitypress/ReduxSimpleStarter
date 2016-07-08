@@ -10,10 +10,12 @@ const VideoDetail = ({video}) => {
     // same as... const url = 'https://www.youtube.com/embed/' + videoId;
 
     return(
-        <div className="flex-video widescreen">
-            <iframe width="100%" height="400px" src={url} frameBorder="0" allowFullScreen></iframe>
+        <div>
+            <div className="videoWrapper">
+                <iframe src={url} frameBorder="0" allowFullScreen></iframe>
+            </div>
             <div className="details">
-                <div>{video.snippet.title}</div>
+                <div className="video-title">{video.snippet.title}</div>
                 <div>{video.snippet.description}</div>
             </div>
         </div>
