@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import YTSearch from 'youtube-api-search';
-import _ from 'lodash';
+import _ from 'lodash'; //so that we can use a function that delays the dynamic search (checks onChange every 3 seconds rather than instantly)
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
 import VideoDetail from './components/video_detail';
